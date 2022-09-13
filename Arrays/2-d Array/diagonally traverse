@@ -1,0 +1,22 @@
+QUE) Given a N*N matrix, you have to print elements of upper traingle diagonally.
+
+example
+arr = 
+
+11 12 13 14
+21 22 23 24
+31 32 33 34
+41 42 43 44
+
+OUTPUT
+
+11 -> 22 -> 33 -> 44 -> 12 -> 23 -> 34 -> 13 -> 24 -> 14
+
+// SOL URL -> https://ide.geeksforgeeks.org/d0d1fe8c-587d-499e-ac72-75152d34ddf0
+
+// logic
+
+- watch the gap between the i and j as the gap increases between row and column by 1 so we name the diagonal as with 0 gap, 1 gap and so on.
+- always the elements print starts from 1st row (0) and columns starts from 0 + gap and both increases by 1 till last column is achieved.
+
+- so we take first loop as gap that keeps increasing by 1, inner loop where row always starts by 0 and col starts from gap and keeps increasing by 1 till last column.

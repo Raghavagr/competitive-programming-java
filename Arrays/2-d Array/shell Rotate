@@ -1,0 +1,13 @@
+You are given a n*m matrix where n are the number of rows and m are the number of columns. You are also given n*m numbers representing the elements of the matrix.
+You will be given a ring number 's' representing the ring of the matrix. For details, refer to image
+You will be given a number 'r' representing number of rotations in an anti-clockwise manner of the specified ring.
+You are required to rotate the 's'th ring by 'r' rotations and display the rotated matrix.
+
+// LOGIC
+
+- First pick the shell elemebts and keep in One-D array
+- Rotate the 1-D array by R rotations
+- Again put the one-D array elements in the shell
+- print the complete 2-D array
+
+// SOL URL -> https://ide.geeksforgeeks.org/b33723fb-89ab-48e6-9a65-382dd4490402

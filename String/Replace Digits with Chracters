@@ -1,0 +1,35 @@
+// Problem Link - https://leetcode.com/problems/replace-all-digits-with-characters/
+
+// Approach - 1
+
+1. Iterate in a string length and if index is even then add the character to a new resultant string
+2. If index is odd the access the prev char (idx-1) and curr char to int (ch-'0') and shift the prev char by n digits
+3. To shift the character you can sinply add n in curr character and store in new char. Add new character to resultant string
+4. return the result string
+
+// CODE
+
+class Solution {
+    
+    public static char Shift(char ch, int n) {
+        char newChar = (char) (ch + n);
+        return newChar;
+    }
+    
+    public String replaceDigits(String s) {
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<s.length(); i++) {
+            if(i % 2 == 0) {
+                sb.append(s.charAt(i));
+            }
+            else {
+                char prevCh = s.charAt(i-1);
+                int n = s.charAt(i) - '0';
+                char newChar = Shift(prevCh, n);
+                sb.append(newChar);
+            }
+        }
+        return sb.toString();
+    }
+}

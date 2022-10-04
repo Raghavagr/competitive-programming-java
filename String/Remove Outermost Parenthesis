@@ -1,0 +1,65 @@
+// Leetcode Problem - https://leetcode.com/problems/remove-outermost-parentheses/
+
+// ITERATIVE APPROACH
+
+- Basically we say that if we have only one opeing bracket count so we check thatis one is there and we encounter closing then we make cnt to 0
+- Else we keep adding the bracket in result string as it goes and after adding we check that char is opening bracket the inc the count else dec the count.
+
+// CODE
+
+public String removeOuterParentheses(String s) {
+        int cnt = 0;
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<s.length(); i++) {
+            if(cnt == 0) {
+                cnt++;
+            }
+            
+            else if(cnt == 1 && s.charAt(i) == ')') {
+                cnt--;
+            }
+            
+            else {
+                
+                sb.append(s.charAt(i));
+                if(s.charAt(i) == '(') {
+                    cnt++;
+                }
+                else {
+                    cnt--;
+                }
+                    
+            }
+        }
+        return sb.toString();
+    } 
+    
+ 
+ // STACK WISE APPROACH
+ 
+ - in this we define one stack where we keep adding the elements in stack if we encounter any openig bracket and check whether open opening is already present or not, if present then we also add this bracket in ans string.
+ - if we have closing bracket then we check do we have 2 or more then 2 brackets in stack, so we add closing in result string else pop
+ 
+ // code
+ 
+ public String removeOuterParentheses(String s) {
+        StringBuilder ans = new StringBuilder();
+        Stack<Character> stack = new Stack<>();
+        
+        for(int i=0; i<s.length(); i++) {
+            char ch = s.charAt(i);
+            if(ch == '(') {
+                if(stack.size() > 0) {
+                    ans.append(ch);
+                }
+                stack.push(ch);
+            }
+            else {
+                if(stack.size() > 1) {
+                    ans.append(ch);
+                }
+                stack.pop();
+            }
+        }
+        return ans.toString();
+    }

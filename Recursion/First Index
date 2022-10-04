@@ -1,0 +1,48 @@
+// find first index of element in arrray
+
+Approach - 1
+
+1. We expect that the func(arr, 0, d) gives first index from 0 to end
+2. We have faith that the func(arr, 1, d) is giving us the first idx from 1 to end
+3. We link that first we will call the func till end, when it has last indx return -1, and then compares each element against D when it gets return idx else the fi as -1.
+
+//CODE
+
+public static int firstIndex(int[] arr, int idx, int x){
+        if(idx == arr.length) {
+            return -1;
+        }
+
+        int fi = firstIndex(arr, idx+1, x);
+
+        if(arr[idx] == x) {
+            return idx;
+        }
+        else {
+            return fi;
+        }
+    }
+    
+The approach is good but is not better and we can do more better than this
+
+// APPROACH - 2 (Little modification)
+
+In above approach first we are going till back and while coming we are comparing but the better way should be when we are going back we should compare because if ele is
+present on 1st idx then why should I go till last and come so while going on we will compare and if not match then make a call.
+
+// CODE
+
+public static int firstIndex(int[] arr, int idx, int x){
+        if(idx == arr.length) {
+            return -1;
+        }
+
+        if(arr[idx] == x) {
+            return idx;
+        }
+
+        else {
+            int fi = firstIndex(arr, idx+1, x);
+            return fi;
+        }
+    }

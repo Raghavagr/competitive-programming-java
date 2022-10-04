@@ -1,0 +1,50 @@
+// Find maximum element in array using recursion
+
+// Approach
+
+1. What is our expectation is max(arr, 0) will give us the maximum elements
+2. The faith is max(arr, 1) will produce the maximum element from 1st idx to last idx
+3. The link is if we find the max from smaller array (1st idx to n) then we can compare it will 0th based idx and return the maximum element
+
+In order to keep this approach we build a code and base case as when we reach the last element then return the last element because after that it says I am only the 
+largest element, no one is there, and in stack we have idx
+
+// CODE
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int[] arr = new int[n];
+        for(int i=0; i<n; i++) {
+            arr[i] = scn.nextInt();
+        }
+
+        int max = maxOfArray(arr, 0);
+        System.out.println(max);
+    }
+
+    public static int maxOfArray(int[] arr, int idx){
+        
+        if(idx == arr.length-1) {
+            return arr[idx];
+        }
+
+        // faith that max(arr, 1) will give max from 1 to last idx
+        int misa = maxOfArray(arr, idx+1);
+
+        if(misa > arr[idx]) {
+            return misa;
+        }
+
+        else {
+            return arr[idx];
+        }
+    }
+
+}

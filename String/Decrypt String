@@ -1,0 +1,39 @@
+// Problem Link - https://leetcode.com/problems/decrypt-string-from-alphabet-to-integer-mapping/
+
+// My Approach
+
+1. I have created a empty String Builder to store the result
+2. After that I run a loop from last index of string to 0 and extract each char as a string at that index.
+3. If a current character is '#' then I extract 2 chracter (substring) and converted it to integer and retrieve a respective character at that integer and add to stringBuilder
+4. If a current character is not '#' means character between 1-9 so directly get the character and add to string Builder
+5. In last reverse the string Builder and return by converting to string.
+
+// CODE
+
+public String freqAlphabets(String s) {
+        StringBuilder sb = new StringBuilder();
+	    //String s = "1326#"; //"10#11#12";
+	    
+	    int i = s.length()-1;
+	    
+	    while(i >= 0) {
+	        String ch = s.substring(i, i+1);
+	        if(ch.equals("#")) {
+	            String subst = s.substring(i-2, i);
+	            int n = Integer.parseInt(subst);
+	            char newCh = (char) ('a' + n - 1);
+	            sb.append(newCh);
+	            i = i-3;
+	        }
+	        else {
+	            int n = Integer.parseInt(ch);
+	            char newCh = (char) ('a' + n - 1);
+	            sb.append(newCh);
+	            i = i-1;
+	        }
+	    }
+	    
+		sb.reverse();
+		return sb.toString();   
+    }
+    

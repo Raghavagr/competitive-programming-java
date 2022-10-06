@@ -1,0 +1,36 @@
+// Find last index of element in array using recursion
+
+// Approach - 1 (Returning from Recursion)
+
+1. We expect that the func(arr, 0, d) gives us the last index of element from 0 to end
+2. We have faith that the func(arr, 1, d) give us the last index from 1 to end.
+
+3. Here we can have the 2 cases like from 1 to n we find the element and have last index and the element not present in 1-n so we hold -1. so here forms the different cases.
+
+  A) If 1-n element not present means we have -1 then comparing to current arr[0] element can be present so return 0
+  B) If 1-n element no present means -1 and arr[0] also not contain the element then we have to return -1.
+  
+  C) Apart from this if we fount the element in 1-n then directly we can return this because if arr[0] element also present then also this is not the last idx.
+  
+  The code we have written here
+  
+  public static int lastIndex(int[] arr, int idx, int x){
+        if(idx == arr.length) {
+            return -1;
+        }
+        
+        int liisa = lastIndex(arr, idx+1, x);
+        if(liisa == -1) {
+            if(arr[idx] == x) {
+                return idx;
+            }
+
+            else {
+                return -1;
+            }
+        }
+        else {
+            return liisa;
+        }
+        
+    }

@@ -1,0 +1,58 @@
+// In merge-sort the array is divided till each element is in separated array. Then it is sorted and merget to create a one sorted array.
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class HelloWorld {
+    
+    public static int[] mergeTwoSorted(int fsa[], int ssa[]) {
+        int[] ans = new int[fsa.length+ssa.length];
+        int i=0, j=0, k=0;
+        while(i < fsa.length && j < ssa.length) {
+            if(fsa[i] < ssa[j]) {
+                ans[k] = fsa[i];
+                i++;
+                k++;
+            }
+            else {
+                ans[k] = ssa[j];
+                j++;
+                k++;
+            }
+        }
+        while(i < fsa.length) {
+            ans[k] = fsa[i];
+            i++;
+            k++;
+        }
+        while(j < ssa.length) {
+            ans[k] = ssa[j];
+            j++;
+            k++;
+        }
+        return ans;
+    }
+    
+    public static int[] mergesort(int arr[], int beg, int end) {
+        if(beg == end) {
+            int[] base = new int[1];
+            base[0] = arr[beg];
+            return base;
+        }
+        int mid = (beg + end) / 2;
+        int fst_sort_arr[] = mergesort(arr, beg, mid);
+        int sc_sort_arr[] = mergesort(arr, mid+1, end);
+        int full_srt_arr[] = mergeTwoSorted(fst_sort_arr, sc_sort_arr);
+        return full_srt_arr;
+    }
+    
+    public static void main(String[] args) {
+        //System.out.println("Hello, World!");
+        int[] arr = {3,1,8,5,4};
+        int[] res = mergesort(arr, 0, arr.length-1);
+        
+        for(int i=0; i<res. length; i++) {
+            System.out.println(res[i]);
+        }
+    }
+}

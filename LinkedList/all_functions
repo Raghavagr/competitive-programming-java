@@ -1,0 +1,214 @@
+// Implement all basic functionality of Linked List of adding, removing, and retriving the data
+
+// CODE URL - https://ide.geeksforgeeks.org/online-java-compiler/15068f80-171b-42c7-94e4-9eaed47d9b63
+
+// Code
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    
+    public static class Node {
+        int data;
+        Node next;
+    }
+    
+    public static class LinkedList {
+        Node head;
+        Node tail;
+        int size;
+        
+        public int size() {
+            return size;  // direct we have track of list size
+        }
+        
+        public void display() {
+            Node temp = head;
+            if(temp == null) {
+                System.out.println("List empty");
+            }
+            else {
+                while(temp != null) {
+                    System.out.println(temp.data);
+                    temp = temp.next;
+                }
+            }
+        }
+        
+        public void addLast(int val) {
+            //case-1 (when size id 0)
+            if(size == 0) {
+                Node new_node = new Node();
+                new_node.data = val;
+                new_node.next = null;
+                head = tail = new_node;
+                size++;
+            }
+            //case-2 (else there exist a list)
+            else {
+                Node new_node = new Node();
+                new_node.data = val;
+                new_node.next = null;
+                tail.next = new_node;
+                tail = new_node;  // now tail will point to last newly added node
+                size++;
+            }
+        }
+        
+        public void addFirst(int val) {
+            Node new_node = new Node();
+            new_node.data = val;
+            new_node.next = head;
+            head = new_node;
+            if(size == 0) {
+                tail = new_node;
+            }
+            size++;
+        }
+        
+        public void addAt(int val, int idx) {
+            //case-1 (idx passed is not valid)
+            if(idx < 0 || idx > size) {
+                System.out.println("Invalid idx passed, cannot add node at this index");
+            }
+            //case-2 (idx is 0 means addFirst)
+            else if(idx == 0) {
+                addFirst(val);
+            }
+            //case-3 (idx is equal to size means addLast)
+            else if(idx == size) {
+                addLast(val);
+            }
+            //case-4 (we need to iterate and add new node logic)
+            else {
+                Node new_node = new Node();
+                new_node.data = val;
+                Node temp = head;
+                // reach before the idx node at pos we have to insert
+                for(int i=0; i<idx-1; i++) {
+                    temp = temp.next;
+                }
+                //now after temp we have to add new node
+                new_node.next = temp.next;
+                temp.next = new_node;
+                size++;
+            }
+        }
+        
+        public void getFirst() {
+            if(size == 0) {
+                System.out.println("List is empty");
+            }
+            else {
+                System.out.println(head.data);
+            }
+        }
+        
+        public void getLast() {
+            if(size == 0) {
+                System.out.println("List is empty");
+            }
+            else {
+                System.out.println(tail.data);
+            }
+        }
+        
+        public void getAt(int idx) {
+            if(size == 0) {
+                System.out.println("List is empty");
+            }
+            else if(idx < 0 || idx > size) {
+                System.out.println("Invalid index");
+            }
+            else {
+                Node temp = head;
+                for(int i=0; i<idx; i++) {
+                    temp = temp.next;
+                }
+                System.out.println(temp.data);
+            }
+        }
+        
+        public void removeFirst() {
+            if(size == 0) {
+                System.out.println("List empty");
+            }
+            else if(size == 1) {
+                head = tail = null;
+                size = 0;
+            }
+            else {
+                head = head.next;
+                size--;
+            }
+        }
+        
+        public void removeLast() {
+            if(size == 0) {
+                System.out.println("List empty");
+            }
+            else if(size == 1) {
+                head = tail = null;
+                size = 0;
+            }
+            else {
+                Node temp = head;
+                // iterate till the last second node of list
+                // we are already at head(first node) so iterate till lest then last 2
+                for(int i=0; i<size-2; i++) {
+                    temp = temp.next;
+                }
+                
+                temp.next = null;
+                tail = temp;
+                size--;
+            }
+        }
+        
+        public void removeAt(int idx) {
+            if(idx < 0 || idx > size) {
+                System.out.println("Invalid index");
+            }
+            else if(idx == 0) {
+                removeFirst();
+            }
+            else if(idx == size-1) {
+                removeLast();
+            }
+            else {
+                Node temp = head;
+                // iterate before the removal node
+                for(int i=0; i<idx-1; i++) {
+                    temp = temp.next;
+                }
+                temp.next = temp.next.next;
+                size--;
+            }
+        }
+        
+        
+    }
+    
+	public static void main (String[] args) {
+		System.out.println("Implementing Linked List all functions!");
+		//create a new List
+		LinkedList list = new LinkedList();
+		list.addLast(4);
+		list.addFirst(5);
+		list.addLast(8);
+		list.addAt(6, 2);
+		System.out.println("The size of list is " + list.size());
+		System.out.println("Printing list");
+		list.display();
+		list.removeFirst();
+		list.removeLast();
+		System.out.println("Printing list");
+		list.display();
+		list.addLast(9);
+		list.addLast(12);
+		list.removeAt(2);
+		System.out.println("Printing list");
+		list.display();
+	}
+}

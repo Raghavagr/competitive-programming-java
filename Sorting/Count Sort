@@ -1,0 +1,138 @@
+// Implement Count sort and explain the approach
+
+When Should you use Count Sort?
+Ans) Count sort is used when you have the limited range of number (range is known in array) and the array size can be of any length.
+     For example it is used in rank list for sorting - there are 5lakh students in JEE but the numbers are between 0 to 360 so you can use count sort in that case.
+
+How Count sort works (Explain the Approach)
+
+ans) Approach to count sort with example
+
+arr[] = [9, 6, 3, 5, 3, 4, 3, 9, 6, 4, 6, 5, 8, 9, 9]  n= 15
+
+Step-1) Form the Frequency array from original array
+
+    1) Find the maximum and minimum element from array - min(3), max(9)
+    2) Get the range of numbers present to get the size of freq array - range = max - min + 1 - (9-3)+1 = 7
+    3) form the freq array of size 7
+
+Step-2) Fill the frequency array with the ele freq
+
+    1) Now understand the importance of freq array. freq = [0,0,0,0,0,0,0] here the arr[0] represent the occurence of 3, arr[1] represent occurence of 4
+    2) What you have to do is traverse the original array, and subtract min from each num to get idx of freq array to increase the count.
+       In simple words - idx = arr[i] - min  eg = (9-6) = 6
+                         freq[idx] += 1      freq[6] = 0+1 = 1
+    3) when you do so you will get below type array where arr[0] is count of 3, arr[1] is count of 4, arr[2] is count of 5, so on...
+        freq = [3, 2, 2, 3, 0, 1, 4]  
+    4) Now many people do mistake they basically implemet the new result array from count as this is sorted. But this is not right way & does not called as stable sort anymore
+
+Step-3) Form Prefix-sum array
+
+  1) What you have to do is from this freq array convert it to prefix sum array
+  2) when you do so the array will look like below
+  3) freq = [3, 5, 7, 10, 10, 11, 15]  (To form this just add curr_ele with prev ele)
+  4) It will be good if you do at first -1 and then form the prefix-sum array means 3-1 = 2. Just add 2 at first pos and then start forming prefic-sum array.
+      This will reflect the array 0 based indexing in proper way. and the freq array will look like - freq = [2, 4,6, 9, 9, 10, 14]
+  5) Now what this prefic-sum array reflects - 
+     It basically shows the index range of your original value from array. For example 2 represent like from 0-2 there is 3 value area
+     in last 14 represent there is 9 sitting at 14th index, 10 represent there is 8 sitting at 10th position.
+
+Step-4) Fill the original array
+
+    1) What you need to do is traverse the original array from back. 
+       And whatever value coming at that place just pick the index from prefix-sum array of that element in freq array where its index was there and keep that ele at that idx in original array
+    2) For example say at last there is 9 in original array
+       So in prefix sum array the idx that represents 9 was = 9-3 = 6
+    3) On 6th idx in prefix-sum array we have 14 so just keep 9 at 14th idx and subtract the 14 by 1 in prefix-sum array so when the next 9 comes it will be kept at 13th position
+
+ eg - arr = [9, 6, 3, 5, 3, 4, 3, 9, 6, 4, 6, 5, 8, 9, 9]
+      prefix =  [2, 4,6, 9, 9, 10, 14]
+
+Traverse = i = 14
+           ele = 9
+          idx in prefic-sum = (9-3) = 6 prefix[6] = 14
+          arr[14] = 9
+          prefix[6] = 14-1 = 13
+
+       i = 13
+       ele = 9
+      idx in prefic-sum = (9-3) = 6 prefix[6] = 13
+      arr[13] = 9
+      prefix[6] = 13-1 = 12
+
+       i = 12
+       ele = 8
+      idx in prefic-sum = (8-3) = 5 prefix[5] = 10
+      arr[10] = 8
+      prefix[5] = 10-1 = 9
+
+       i = 11
+       ele = 5
+      idx in prefic-sum = (5-3) = 2 prefix[2] = 6
+      arr[6] = 5
+      prefix[2] = 6-1 = 5
+
+SO ON.....
+
+The final arr form will look = [3,3,3,4,4,5,5,6,6,6,8,9,9,9,9]
+
+And the array is sorted and stable sort is also preserved.....
+
+
+/// IMPLEMENTATION IN JAVA
+
+CODE LINK - https://ide.geeksforgeeks.org/online-java-compiler/82754503-a64d-476f-a575-3c13709e73f7
+
+// CODE
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+
+class GFG {
+    
+    public static void countSort(int arr[], int min, int max) {
+        int range = (max - min) + 1;
+        int farr[] = new int[range]; // create freq array
+        
+        // fill the elements in frequency array
+        for(int i=0; i<arr.length; i++) {
+            int idx = arr[i] - min;
+            farr[idx]++;
+        }
+        
+        // Convert freq array to prefix-sum array
+        for(int i=1; i<farr.length; i++) {
+            farr[i] = farr[i] + farr[i-1];
+        }
+        
+        // now reverse loop in original array and keep ele at correct place using prefix-sum arr
+        int ans[] = new int[arr.length];
+        for(int i=arr.length-1; i>=0; i--) {
+            int idx = arr[i] - min; //get the idx of ele in prefic-sum array where its existence
+            int pos = farr[idx];
+            
+            // now at that post keep arr[i] (pos-1 for 0-based indexing)
+            ans[pos-1] = arr[i];
+            
+            //decrease the freq in freq arr for next pos of that ele
+            farr[idx]--;
+        }
+        
+        //fill the original arr from ans arr
+        for(int i=0; i<arr.length; i++) {
+            arr[i] = ans[i];
+        }
+    }
+    
+	public static void main (String[] args) {
+		int arr[] = {9, 6, 3, 5, 3, 4, 3, 9, 6, 4, 6, 5, 8, 9, 9};
+		countSort(arr, 3, 9);
+		for(int i=0; i<arr.length; i++) {
+		    System.out.println(arr[i]);
+		}
+	}
+}
+
+
+  

@@ -1,0 +1,52 @@
+Que) Given an unsorted array, and a target, You have to find all the pairs (a, b) that sum up equal to target
+
+Constraints - complexity - O(N Log N)
+              Pairs should be unique like (a1, b1) -correct and then (b1, a1) -> wrong
+              Pairs should be printed in increasing order -> (a1, b1), (a2, b2), (a3, b3) -> a1<a2<a3 && a1<b1 && a2<b2 && a3<b3
+
+Approach
+
+1. First apply merge sort -> n log n (It will sort the array)
+2. now use the two pointer techniqe to find the pairs.
+
+CODE
+
+// CODE URL -> https://ide.geeksforgeeks.org/online-java-compiler/575bdd6b-7bba-4d00-b1c8-aff2da58d8af
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    
+    public static void targetSumPair(int[] arr, int target) {
+        // first apply merge sort on array
+        //mergesort(arr, 0, arr.length-1);
+        // Alternate
+        Arrays.sort(arr);
+        
+        // Now use the two pointer approach
+        int left = 0;
+        int right = arr.length-1;
+        while(left < right) {
+            if(arr[left] + arr[right] < target) {
+                left++;
+            }
+            else if(arr[left] + arr[right] > target) {
+                right--;
+            }
+            else {
+                System.out.println(arr[left] + "," + arr[right]);
+                left++;
+                right--;
+            }
+        }
+        
+    }
+    
+	public static void main (String[] args) {
+		int[] arr = {7, 15, 3, 18, 6, 4, 19, 2, 12, 11, 9};
+		targetSumPair(arr, 15);
+	}
+}

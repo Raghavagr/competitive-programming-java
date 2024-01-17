@@ -1,0 +1,98 @@
+Que) Given an array of elements, You have to find the just nexy greater element of each element in an array and return the array of elements containing the next greater element of that element.
+  // If the element is not present then put -1 for that elements.
+
+
+Approach
+
+1. Form a stack and start traversing the array from last. (The last element will always have next greater as -1 so already push -1 for last pos in res array, and last element in stack.
+2. Now for each element visiting from second last there will be 3 conditions (3 things to be performed)
+   i) Check that the top of stack is greater that current element or not.
+   ii) If not then the current element will try to pop all the small element from stack till it find the greater element then it
+   iii) If it finds the greater element then pick that as its answer, else pick -1.  And push itself to the stack.
+
+3. In this way the res array will fill up and you will get the final anaswer
+
+/// EXAMPLE WITH DRY-RUN
+
+ARR = [2, 5, 9, 3, 1, 12, 6, 8, 7]
+
+/// START
+Traversing from last
+stack = [7]    res = [-1]
+
+visit 8
+i) pop 7 from stack, check size of stack is 0 so answer is -1 because could not find greater then itself
+
+   stack = [8]    res = [-1, -1]
+
+Visit 6
+
+ i) At the top only it finds greater as 8 so put it as its answer and push itself to stack
+
+ stack = [6, 8]    res = [8, -1, -1]
+
+Visit 12
+
+i) Pop 6, and 8 both till find greater but stack become empty so set -1. And push itself to stack
+
+  stack = [12]    res = [-1, 8, -1, -1]
+
+Visit 1
+
+i) finds 12 as greater, set 12 as its ans and push itself to stack
+
+  stack = [1, 12]    res = [12, -1, 8, -1, -1]
+
+/// SIMILAR WAY THE CHECKS WILL KEEP ON RUNNING TILL THE I BECOMES 0 ANS IN LAST YOU WILL GET BELOW RES ARRAY
+res = [5, 9, 12, 12, 12, -1, 8, -1, -1]
+
+
+
+/// CODE
+
+//// CODE URL -> https://ide.geeksforgeeks.org/online-java-compiler/1de8f1bc-dd59-4142-a616-b9500bd75cbd
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static int[] findNextGreater(int[] arr) {
+        int[] nge = new int[arr.length];
+        Stack<Integer> st = new Stack<>();
+        
+        // insert for last element
+        nge[arr.length-1] = -1;
+        st.push(arr[arr.length-1]);
+        
+        // start from last second element
+        for(int i=arr.length-2; i>=0; i--) {
+            // first the curr element will try to pop smaller ele from stack till it finds greater
+            while(st.size() > 0 && arr[i] > st.peek()) {
+                st.pop();
+            }
+            
+            //check if the loop stops so did it find the greater element or size is empty
+            if(st.size() == 0) {
+                nge[i] = -1;
+            }
+            else {
+                nge[i] = st.peek();
+            }
+            
+            // push curr element to stack
+            st.push(arr[i]);
+        }
+        return nge;
+    }
+    
+	public static void main (String[] args) {
+		int[] arr = {2, 5, 9, 3, 1, 12, 6, 8, 7};
+		int[] res = findNextGreater(arr);
+		for(int i=0; i<res.length; i++) {
+		    System.out.print(res[i] + " ");
+		}
+	}
+}
+

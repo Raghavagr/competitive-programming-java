@@ -1,0 +1,145 @@
+// Create the top sorting algorithms in one program
+1. Bubble sort
+2. Selection sort
+3. Insertion sort
+4. Merge sort
+
+// CODE
+
+// URL - https://ide.geeksforgeeks.org/online-java-compiler/bf7c3807-e891-4544-95d7-d8f8c536e880
+
+// Implementing most popular 3 sorting algorithms
+
+import java.io.*;
+
+class GFG {
+    public static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    
+    public static void bubleSort(int[] arr) {
+        // It basically runs in round and in each round compare the alternate num and takes larger num at last in each round
+        
+        for(int round=0; round<arr.length-1; round++) {
+            //for each round compare the alternate ele and take larger one to last
+            for(int j=0; j<arr.length-round-1; j++) {
+                if(arr[j] > arr[j+1]) {
+                    swap(arr, j, j+1);
+                }
+            }
+        }
+    }
+    
+    public static void selectionSort(int[] arr) {
+        // In this we basically pick the minimum ele from arr ans keep it as 1st pos, then second min at 2nd pos
+        // So in this way the array is completly sorted at last
+        
+        for(int i=0; i<arr.length; i++) {
+            int min_idx = i;
+            for(int j=i+1; j<arr.length; j++) {
+                if(arr[j] < arr[min_idx]) {
+                    min_idx = j;
+                }
+            }
+            swap(arr, i, min_idx);
+        }
+    }
+    
+    public static void insertionSort(int[] arr) {
+        // In this we assume the array in 2 part like the first arr is of single element which is sorted in itself
+        // Now from 2nd element we insert element to first arr in such a way that it occuies the sorted order pos
+        
+        for(int i=1; i<arr.length; i++) {
+            // so we have to insert this ith pos ele into 1st part
+            for(int j=i-1; j>=0; j--) {
+                if(arr[j] > arr[j+1]) {
+                    swap(arr, j, j+1);
+                }
+                else {
+                    // means the i is in sorted form only
+                    break;
+                }
+            }
+            
+        }
+    }
+    
+    public static int[] merge(int[] fsa, int[] ssa) {
+        int[] res = new int[fsa.length+ssa.length];
+        int i=0, j=0, k=0;
+        
+        while(i < fsa.length && j<ssa.length) {
+            if(fsa[i] < ssa[j]) {
+                res[k] = fsa[i];
+                i++;
+                k++;
+            }
+            else {
+                res[k] = ssa[j];
+                j++;
+                k++;
+            }
+        }
+        
+        while(i < fsa.length) {
+            res[k] = fsa[i];
+            i++;
+            k++;
+        }
+        
+        while(j < ssa.length) {
+            res[k] = ssa[j];
+            j++;
+            k++;
+        }
+        
+        return res;
+    }
+    
+    public static int[] mergeSort(int[] arr, int beg, int end) {
+        
+        if(beg == end) {
+            int[] base = new int[1];
+            base[0] = arr[beg];
+            return base;
+        }
+        
+        int mid = (beg + end) / 2;
+        int fst_sort_arr[] = mergeSort(arr, beg, mid);
+        int sc_sort_arr[] = mergeSort(arr, mid+1, end);
+        int full_srt_arr[] = merge(fst_sort_arr, sc_sort_arr);
+        return full_srt_arr;
+    }
+    
+	public static void main (String[] args) {
+	    int arr[] = {5, 2, 9, 6, 12, 3, 4};
+	   // bubleSort(arr);
+	   // System.out.println("Sorting using bubble sort");
+	   // for(int i=0; i<arr.length; i++) {
+	   //     System.out.println(arr[i]);
+	   // }
+	    
+	   // System.out.println("Sorting using Selection sort");
+	   // selectionSort(arr);
+	   // for(int i=0; i<arr.length; i++) {
+	   //     System.out.println(arr[i]);
+	   // }
+	   
+	   //System.out.println("Sorting using Insertion sort");
+	   // insertionSort(arr);
+	   // for(int i=0; i<arr.length; i++) {
+	   //     System.out.println(arr[i]);
+	   // }
+	   
+	   System.out.println("Sorting using Merge sort");
+	    int[] res = mergeSort(arr, 0, arr.length-1);
+	    for(int i=0; i<res.length; i++) {
+	        System.out.println(res[i]);
+	    }
+	   
+	   
+	    
+	}
+}

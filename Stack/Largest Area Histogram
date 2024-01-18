@@ -1,0 +1,95 @@
+Que) Given the Array which the height of bars in integers. You have to find the maximum area of in complete histogram like which bar can form the maximum rectangle or rectangle with largest area.
+    Area = height * width.
+
+
+Approach - 
+
+1) You have the height given
+2) To find the width you have to find the smallest element to the left and right both of particular bar. And subtract the right - left to get the width.
+3) calculate area and find the max area
+
+// CODE
+
+// URL - https://ide.geeksforgeeks.org/online-java-compiler/550eac9d-6aab-4a8d-a41a-b038da30d5b6
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    
+    public static int maxArea(int[] arr) {
+        //Form the righ boundary array - stores the index of next smallest element to right
+        int[] rb = new int[arr.length];
+        Stack<Integer> st = new Stack<>();
+        
+        rb[arr.length-1] = arr.length; // not any next smallest of last element
+        st.push(arr.length-1);  //idx of last element
+        
+        for(int i=arr.length-2; i>=0; i--) {
+            while(st.size() > 0 && arr[i] < arr[st.peek()]) {
+                st.pop();
+            }
+            
+            //catch the ans
+            if(st.size() == 0) {
+                rb[i] = arr.length;
+            }
+            else {
+                rb[i] = st.peek();
+            }
+            
+            //push idx of curre ele
+            st.push(i);
+        }
+        
+        System.out.println("Right boundary arr - ");
+        for(int i=0; i<rb.length; i++) {
+            System.out.print(rb[i] + " ");
+        }
+        
+        //Form the left boundary array - stores the index of next smallest element to left
+        int[] lb = new int[arr.length];
+        st = new Stack<>();  //refresh the stack
+        
+        lb[0] = -1;  //smallest element of 1st one to left is none means -1
+        st.push(0);
+        for(int i=1; i<arr.length; i++) {
+            while(st.size() > 0 && arr[i] < arr[st.peek()]) {
+                st.pop();
+            }
+            
+            if(st.size() == 0) {
+                lb[i] = -1;
+            }
+            else {
+                lb[i] = st.peek();
+            }
+            
+            st.push(i);
+        }
+        
+        System.out.println("\nLeft boundary arr - ");
+        for(int i=0; i<lb.length; i++) {
+            System.out.print(lb[i] + " ");
+        }
+        
+        int max_area = 0;
+        for(int i=0; i<arr.length; i++) {
+            int width = (rb[i] - lb[i]) - 1;
+            int area = width * arr[i];
+            if(area > max_area) {
+                max_area = area;
+            }
+        }
+        return max_area;
+        
+    }
+    
+	public static void main (String[] args) {
+		int[] arr = {6,2,5,4,5,1,6};
+		int ans = maxArea(arr);
+		System.out.println("\nMax area is - " + ans);
+	}
+}

@@ -1,0 +1,59 @@
+// QUE) Given an array and an int K. You have to return the maximum element in each of the window size K of array.
+
+Approach)
+1. First form the NGE array of the given array
+2. Then traverse in the n-k look and see in each window the current next greater element is greater than the window size or not. If the next greater of current element is out of window then
+    the current element will be maximum, else you have to take the jump by next greater.
+
+CODE LINK ->
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void slidingWindowMax(int[] arr, int k) {
+        Stack<Integer> stack = new Stack<>();
+        int []nge = new int[arr.length];
+        
+        nge[arr.length-1] = arr.length;
+        stack.push(arr.length-1);
+        
+        for(int i=arr.length-2; i>=0; i--) {
+            while(!stack.isEmpty() && arr[i] > arr[stack.peek()]) {
+                stack.pop();
+            }
+            
+            if(stack.isEmpty()) {
+                nge[i] = arr.length;
+            } 
+            else {
+                nge[i] = stack.peek();
+            }
+            stack.push(i);
+        }
+        
+        int j = 0;
+        // Look for maximum in window
+        for(int i=0; i<=arr.length - k; i++) {
+            
+            if(j < i) {
+                j = i;
+            }
+            
+            // Check if next greater of current pos is in the current window, else we will jump for next element pos
+            while(nge[j] < i+k) {
+                j = nge[j];
+                // Otherwise the current element will become the maximum for the current window
+            }
+            
+            System.out.println(arr[j]);
+        }
+    } 
+    
+	public static void main (String[] args) {
+		int[] arr = {2,9,3,8,1,7,12,6,14,4,32,0,7,19,8,12,6};
+		slidingWindowMax(arr, 4);
+	}
+}

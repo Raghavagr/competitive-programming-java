@@ -1,0 +1,82 @@
+// Given an expression, you have to evaluate and convert it into infix and prefix
+
+// code
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+// op v1 v2
+// v1 v2 op
+
+class GFG {
+    public static int precedence(char op) {
+        if(op == '+' || op == '-') {
+            return 1;
+        }
+        else if(op == '*' || op == '/') {
+            return 2;
+        }
+        return 0;
+    }
+    
+    public static int operation(int v1, int v2, char op) {
+        if(op == '+') {
+            return v1 + v2;
+        }
+        else if(op == '-') {
+            return v1 - v2;
+        }
+        else if(op== '*') {
+            return v1 * v2;
+        }
+        
+        return v1 / v2;
+    }
+    
+    public static void PostfixConversionsEval(String exp) {
+        Stack<Integer> values = new Stack<>(); //for evaluation of postfix expression
+        Stack<String> infix = new Stack<>();
+        Stack<String> prefix = new Stack<>();
+        
+        for(int i=0; i<exp.length(); i++) {
+            char ch = exp.charAt(i);
+            
+            if(ch=='+' || ch=='-' || ch=='*' || ch=='/') {
+                int v2 = values.pop();
+                int v1 = values.pop();
+                int val = operation(v1, v2, ch);
+                values.push(val);
+                
+                // infix conv
+                String if2 = infix.pop();
+                String if1 = infix.pop();
+                String ifval = "(" + if1 + ch + if2 + ")";
+                infix.push(ifval);
+                
+                // prefix conv
+                String pf2 = prefix.pop();
+                String pf1 = prefix.pop();
+                String pfval = ch + pf1 + pf2;
+                prefix.push(pfval);
+            }
+            else {
+                values.push(ch - '0');
+                infix.push(ch + "");
+                prefix.push(ch + "");
+            }
+        }
+        
+        
+        System.out.println("postfix eveluation ans " + values.pop());
+        System.out.println("infix evaluation " + infix.pop());
+        System.out.println("prefix evaluation " + prefix.pop());
+        
+    }
+    
+	public static void main (String[] args) {
+		String exp = "264*8/+3-";
+		PostfixConversionsEval(exp);
+	}
+}

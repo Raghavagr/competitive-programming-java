@@ -1,0 +1,81 @@
+// Create a program to create all operations of Queue
+
+//CODE
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static class Queue {
+        int[] data;
+        int size;
+        int front;
+        
+        public Queue(int capacity) {
+            data = new int[capacity];
+            front = 0;
+            size = 0;
+        }
+        
+        int size() {
+            return size;
+        }
+        
+        void display() {
+            for(int i=0; i<size; i++) {
+                int idx = (front + i) % data.length;
+                System.out.print(data[idx] + " ");
+            }
+            System.out.println();
+        }
+        
+        void add(int val) {
+            if(size == data.length) {
+                System.out.println("Queue overflow");
+            }
+            else {
+                int rear = (front + size) % data.length;
+                data[rear] = val;
+                size++;
+            }
+        }
+        
+        int remove() {
+            if(size == 0) {
+                System.out.println("Queue UNDERFLOW");
+                return 0;
+            }
+            else {
+                int val = data[front];
+                front++;
+                size--;
+                return val;
+            }
+        }
+        
+        int peek() {
+            if(size == 0) {
+                System.out.println("Queue UNDERFLOW");
+                return 0;
+            }
+            else {
+                return data[front];
+            }
+        }
+    }
+    
+	public static void main (String[] args) {
+	    Queue myque = new Queue(5);
+	    myque.add(10);
+	    myque.add(20);
+	    System.out.println(myque.peek());
+	    myque.add(30);
+	    myque.display();
+	    myque.remove();
+	   System.out.println(myque.peek());
+	   System.out.println(myque.size());
+	   myque.display();
+	}
+}

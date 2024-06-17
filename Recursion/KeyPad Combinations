@@ -1,0 +1,40 @@
+// QUE)
+
+// CODES
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static String[] codes = {".", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tu", "vwx", "yz"};
+    
+    public static ArrayList<String> KPC(String str) {
+        if(str.length() == 0) {
+            ArrayList<String> base = new ArrayList<>();
+            base.add("");
+            return base;
+        }
+        
+        char ch = str.charAt(0);
+        String remStr = str.substring(1);
+        ArrayList<String> rstr = KPC(remStr);
+        ArrayList<String> frstr = new ArrayList<>();
+        
+        String codeCh = codes[ch - '0'];
+        for(int i=0; i<codeCh.length(); i++) {
+            for(String res : rstr) {
+                frstr.add(codeCh.charAt(i) + res);
+            }
+        }
+        
+        return frstr;
+    }
+    
+	public static void main (String[] args) {
+		ArrayList<String> ans = KPC("678");
+		System.out.println(ans);
+		System.out.println("Total combinations formed is - "+ ans.size());
+	}
+}

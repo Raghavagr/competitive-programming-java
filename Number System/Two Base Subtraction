@@ -1,0 +1,41 @@
+// Given 2 numbers, and a base B. You have to perform the subtraction of 2 given in the given base and also the result should be in Base B.
+
+// CODE - 
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+
+class GFG {
+    public static int AnyBaseSubtraction(int n1, int n2, int base) {
+        int res = 0;
+        int pow = 1;
+        int borrow = 0;
+        int d = 0;
+        
+        while(n2 > 0) {
+            int d1 = n1 % 10;
+            int d2 = n2 % 10;
+            n1 = n1/10;
+            n2 = n2 / 10;
+            
+            d2 = d2 + borrow;
+            if(d2 >= d1) {
+                d = d2 - d1;
+            }
+            else {
+                d = (d2 + base) - d1;
+                borrow = -1;
+            }
+            
+            res = res + (d * pow);
+            pow = pow * 10;
+        }
+        
+        return res;
+    }
+    
+	public static void main (String[] args) {
+		System.out.println(AnyBaseSubtraction(256, 1212, 8));
+	}
+}

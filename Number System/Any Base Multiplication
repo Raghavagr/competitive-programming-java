@@ -1,0 +1,79 @@
+// QUE) Given 2 numbers in Base B and you have to multiply the given number so the output should also be in Base B
+
+Approach-1)
+First multiple the N1 with each digit of N2 in base B and utilize the any base addition to add the each digit multiplication to another digit.
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+
+class GFG {
+    
+    public static int getSum(int n1, int n2, int base) {
+        int res = 0;
+        int pow = 1;
+        int carry = 0;
+        
+        while(n1 > 0 || n2 > 0 || carry > 0) {
+            int d1 = n1 % 10;
+            int d2 = n2 % 10;
+            n1 = n1 / 10;
+            n2 = n2 / 10;
+            
+            int d = (d1 + d2) + carry;
+            
+            carry = d / base;
+            d = d % base;
+            
+            res = res + (d * pow);
+            pow = pow * 10;
+        }
+        
+        return res;
+    }
+    
+    public static int getProductWithSingleDig(int n1, int d2, int base) {
+        int res = 0;
+        int pow = 1;
+        int carry = 0;
+        
+        while(n1 > 0 || carry > 0) {
+            int d1 = n1%10;
+            n1 = n1 / 10;
+            
+            int d = (d1 * d2) + carry;
+            carry = d / base;
+            d = d % base;
+            
+            res = res + (d * pow);
+            pow = pow * 10;
+        }
+        
+        return res;
+    }
+    
+    public static int AnyBaseMultiplication(int n1, int n2, int base) {
+        int res = 0;
+        int pow = 1;
+        
+        while(n2 > 0) {
+            int d2 = n2 % 10;
+            n2 = n2 / 10;
+            int sing_dig_prod = getProductWithSingleDig(n1, d2, base);
+            
+            res = getSum(sing_dig_prod * pow, res, base);
+            pow = pow*10;
+        }
+        return res;
+    }
+    
+	public static void main (String[] args) {
+		System.out.println(AnyBaseMultiplication(234, 76, 8));
+	}
+}
+
+
+
+// APPROACH-2
+- First Convert both the given number to decimal. Perform the Multipliation in decimal. Convert back the multiplication result of decimal to iven Base b.
+-   In this you can use Any base to decimal conversion and decimal to base conversion code - 

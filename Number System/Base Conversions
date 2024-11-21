@@ -1,0 +1,57 @@
+// Given a Base and a number, convert from one base to other - 
+
+// CODE - 
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+
+class GFG {
+    public static int DecimalToBase(int num, int base) {
+        int res = 0;
+        int pow = 1;
+        // Always quot and rem will be of destination
+        // Multiplication will be of source
+        
+        while(num != 0) {
+            int rem = num % base;
+            num = num / base;
+            res = res + (rem * pow);
+            pow = pow * 10;
+        }
+        
+        return res;
+    }
+    
+    public static int BaseToDecimal(int num, int base) {
+        int res = 0;
+        int pow = 1;
+        
+        while (num != 0) {
+            int rem = num % 10;
+            num = num / 10;
+            res = res + (rem * pow);
+            pow = pow * base;
+        }
+        
+        return res;
+    }
+    
+    public static int AnyBaseToAnyBase(int num, int base1, int base2) {
+        int res = 0;
+        int pow = 1;
+        
+        int dec_num = BaseToDecimal(num, base1);
+        int res_base = BaseToDecimal(dec_num, base2);
+        
+        return res_base;
+    }
+    
+	public static void main (String[] args) {
+		System.out.println(BaseToDecimal(1100, 2));
+		System.out.println(DecimalToBase(12, 2));
+		System.out.println(AnyBaseToAnyBase(123, 8, 10));
+		System.out.println();
+		
+	}
+}

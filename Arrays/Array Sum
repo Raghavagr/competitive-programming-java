@@ -1,0 +1,55 @@
+// Given 2 array, perform the sum of 2 array - 
+
+
+import java.util.*;
+
+class Main {
+    
+    public static void ArraySum(int arr1[], int arr2[]) {
+        int n1 = arr1.length;
+        int n2 = arr2.length;
+        
+        int max = Math.max(n1, n2) + 1;
+        int[] res = new int[max];
+        
+        int i = n1-1;
+        int j = n2-1;
+        int k = max - 1;
+        int carry = 0;
+        
+        while(i >= 0 || j >=0 || carry > 0) {
+            int sum = carry;
+            
+            if(i >= 0) {
+                sum += arr1[i];
+                i--;
+            }
+            
+            if(j >= 0) {
+                sum += arr2[j];
+                j--;
+            }
+            
+            res[k] = sum % 10;
+            carry = sum / 10;
+            k--;
+        }
+        
+       for(int idx=0; idx<max; idx++) {
+           System.out.print(res[idx] + " ");
+       }
+       System.out.println();
+    }
+    
+  public static void main(String[] args) {
+    // System.out.println("Hello Geek!");
+    // Test Case 1
+        int[] array1 = {9, 9, 9};
+        int[] array2 = {1};
+        ArraySum(array1, array2);
+    
+        int[] array1_case2 = {2, 4, 3};
+        int[] array2_case2 = {5, 6, 4};
+        ArraySum(array1_case2, array2_case2);
+  }
+}

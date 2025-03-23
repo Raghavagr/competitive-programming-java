@@ -1,0 +1,44 @@
+// Find the floor and Ciel values of any element in an array
+
+// use binary search
+
+
+// code
+
+class Main {
+    public static void FindCielFloorValue(int[] arr, int d) {
+        int start = 0;
+        int end = arr.length - 1;
+        int floor = 0;
+        int ciel = 0;
+        
+        while(start < end) {
+            int mid = (start + end) / 2;
+            
+            if(arr[mid] < d) {
+                floor = arr[mid];
+            }
+            
+            if(arr[mid] > d) {
+                ciel = arr[mid];
+                end = end - 1;
+            }
+            
+            if(arr[mid] == d) {
+                floor = arr[mid];
+                ciel = arr[mid];
+                start = mid + 1;
+            }
+        }
+        
+        System.out.println("Floor value: " + floor);
+        System.out.println("Ceil Value: " + ciel);
+    }
+    
+  public static void main(String[] args) {
+    int arr[] = {10, 20, 25, 35, 40, 45, 50};
+    int d = 35;
+    FindCielFloorValue(arr, 35);
+    
+  }
+}

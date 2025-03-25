@@ -1,0 +1,53 @@
+// Given the matrix has 1 and 0 and it enters from top left and go to east. It takes right when it found 1 so we have to find the exit point of matrix
+
+
+// Here is the code where you just follow the direction and check for correct out of bounds
+
+class Solution {
+    public int[] FindExitPoint(int n, int m, int[][] matrix) {
+        int dir = 0; // 0 -> East, 1 -> South, 2 -> West, 3 -> North
+        int i = 0, j = 0;
+        int[] res = new int[2];
+
+        while (true) {
+            // Update direction BEFORE moving
+            dir = (dir + matrix[i][j]) % 4;
+            
+            // Set current cell to 0 after changing direction (to avoid infinite loops)
+            matrix[i][j] = 0;
+
+            // Move in the current direction
+            if (dir == 0) { // Move right (east)
+                j++;
+            } else if (dir == 1) { // Move down (south)
+                i++;
+            } else if (dir == 2) { // Move left (west)
+                j--;
+            } else if (dir == 3) { // Move up (north)
+                i--;
+            }
+
+            // Check for out-of-bounds and break if necessary
+            if (i < 0) { 
+                i++; // Correct last move
+                break;
+            }
+            if (j < 0) { 
+                j++; // Correct last move
+                break;
+            }
+            if (i == n) { 
+                i--; // Correct last move
+                break;
+            }
+            if (j == m) { 
+                j--; // Correct last move
+                break;
+            }
+        }
+
+        res[0] = i;
+        res[1] = j;
+        return res;
+    }
+}
